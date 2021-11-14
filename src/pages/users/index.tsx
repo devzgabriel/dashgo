@@ -2,10 +2,12 @@ import {
   Box,
   Button,
   Checkbox,
+  Link,
   Flex,
   Heading,
   Icon,
   IconButton,
+  Spinner,
   Table,
   Tbody,
   Td,
@@ -15,7 +17,7 @@ import {
   Tr,
   useBreakpointValue,
 } from '@chakra-ui/react'
-import Link from 'next/link'
+import NextLink from 'next/link'
 import { RiAddLine, RiPencilLine } from 'react-icons/ri'
 
 import { Header } from '../../components/Header'
@@ -40,7 +42,7 @@ export default function UserList() {
             <Heading size='lg' fontWeight='normal'>
               Usuários
             </Heading>
-            <Link href='/users/create' passHref>
+            <NextLink href='/users/create' passHref>
               <Button
                 as='a'
                 size='sm'
@@ -50,59 +52,73 @@ export default function UserList() {
               >
                 Criar Novo
               </Button>
-            </Link>
+            </NextLink>
           </Flex>
-          <Table colorScheme='whiteAlpha'>
-            <Thead>
-              <Tr>
-                <Th px={['4', '4', '6']} color='gray.300' width='8'>
-                  <Checkbox colorScheme='pink' />
-                </Th>
-                <Th>Usuários</Th>
-                {isWideVersion && <Th>Data de Cadastro</Th>}
-                <Th width='8'></Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              <Tr>
-                <Td px={['4', '4', '6']}>
-                  <Checkbox colorScheme='pink' />
-                </Td>
-                <Td>
-                  <Box>
-                    <Text fontWeight='bold'>Gabriel Silva</Text>
-                    <Text fontSize='sm' color='gray.300'>
-                      emailbrabo@gmail.com
-                    </Text>
-                  </Box>
-                </Td>
-                {isWideVersion && <Td>04 de Julho, 2021</Td>}
-                {isWideVersion ? (
-                  <Td>
-                    <Button
-                      as='a'
-                      size='sm'
-                      fontSize='sm'
-                      colorScheme='gray.900'
-                      leftIcon={<Icon as={RiPencilLine} fontSize='16' />}
-                    >
-                      Editar
-                    </Button>
-                  </Td>
-                ) : (
-                  <Td>
-                    <IconButton
-                      aria-label='Edit'
-                      icon={<Icon as={RiPencilLine} />}
-                      fontSize='20'
-                      variant='unstyled'
-                    />
-                  </Td>
-                )}
-              </Tr>
-            </Tbody>
-          </Table>
-          <Pagination />
+
+          <>
+            <Table colorScheme='whiteAlpha'>
+              <Thead>
+                <Tr>
+                  <Th px={['4', '4', '6']} color='gray.300' width='8'>
+                    <Checkbox colorScheme='pink' />
+                  </Th>
+                  <Th>Usuários</Th>
+                  {isWideVersion && <Th>Data de Cadastro</Th>}
+                  <Th width='8'></Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {[].map((user) => (
+                  <Tr key={user.id}>
+                    <Td px={['4', '4', '6']}>
+                      <Checkbox colorScheme='pink' />
+                    </Td>
+                    <Td>
+                      <Box>
+                        <Link
+                          color='purple.400'
+                          onMouseEnter={() => console.log('mouse enter')}
+                        >
+                          <Text fontWeight='bold'>{user.name}</Text>
+                        </Link>
+                        <Text fontSize='sm' color='gray.300'>
+                          {user.email}
+                        </Text>
+                      </Box>
+                    </Td>
+                    {isWideVersion && <Td>{user.createdAt}</Td>}
+                    {isWideVersion ? (
+                      <Td>
+                        <Button
+                          as='a'
+                          size='sm'
+                          fontSize='sm'
+                          colorScheme='gray.900'
+                          leftIcon={<Icon as={RiPencilLine} fontSize='16' />}
+                        >
+                          Editar
+                        </Button>
+                      </Td>
+                    ) : (
+                      <Td>
+                        <IconButton
+                          aria-label='Edit'
+                          icon={<Icon as={RiPencilLine} />}
+                          fontSize='20'
+                          variant='unstyled'
+                        />
+                      </Td>
+                    )}
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
+            <Pagination
+              totalCountOfRegisters={100}
+              currentPage={1}
+              onChange={() => {}}
+            />
+          </>
         </Box>
       </Flex>
     </Box>

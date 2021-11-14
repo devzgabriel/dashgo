@@ -37,10 +37,12 @@ const createUserFormSchema = yup.object().shape({
 })
 
 export default function CreateUser() {
+  const router = useRouter()
   const { register, handleSubmit, formState } = useForm({
     resolver: yupResolver(createUserFormSchema),
   })
-  const router = useRouter()
+
+  //TODO: useMutation
 
   const handleCreateUser: SubmitHandler<CreateUserFormData> = async (
     values
